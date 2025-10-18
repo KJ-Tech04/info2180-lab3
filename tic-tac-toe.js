@@ -12,6 +12,8 @@ function checkWinner(player, squares) {
 
 window.addEventListener('DOMContentLoaded', function() {
     const squares = document.querySelectorAll('#board div');
+    const status = document.getElementById('status');
+    const newGameButton = this.document.querySelector('.btn');
     let currentPlayer = 'X'; // Start with X
 
     squares.forEach(function(square) {
@@ -25,7 +27,6 @@ window.addEventListener('DOMContentLoaded', function() {
                 square.classList.add(currentPlayer);
 
                 if (checkWinner(currentPlayer, squares)) {
-                    const status = document.getElementById('status');
                     status.textContent = `Congratulations! ${currentPlayer} is the Winner!`;
                     status.classList.add('you-won');
                 } else {
@@ -42,5 +43,16 @@ window.addEventListener('DOMContentLoaded', function() {
         square.addEventListener('mouseout', function() {
             square.classList.remove('hover');
         });
+    });
+    // Reset game on New Game button click
+    newGameButton.addEventListener('click', function() {
+        squares.forEach(function(square){
+            square.textContent = '';
+            square.classList.remove('X', 'O');
+        });
+
+        status.textContent = 'Move your mouse over a square and click to play an X or an O.';
+        status.classList.remove('you-won');
+        currentPlayer = 'x';
     });
 });
