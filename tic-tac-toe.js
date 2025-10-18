@@ -1,3 +1,15 @@
+function checkWinner(player, squares) {
+    const winPatterns = [
+        [0,1,2], [3,4,5], [6,7,8], // rows
+        [0,3,6], [1,4,7], [2,5,8], // columns
+        [0,4,8], [2,4,6]           // diagonals
+    ];
+
+    return winPatterns.some(pattern => 
+        pattern.every(index => squares[index].textContent === player)
+    );
+}
+
 window.addEventListener('DOMContentLoaded', function() {
     const squares = document.querySelectorAll('#board div');
     let currentPlayer = 'X'; // Start with X
@@ -11,7 +23,14 @@ window.addEventListener('DOMContentLoaded', function() {
             if (square.textContent === '') {
                 square.textContent = currentPlayer;
                 square.classList.add(currentPlayer);
+
+                if (checkWinner(currentPlayer, squares)) {
+                    const status = document.getElementById('status');
+                    status.textContent = `Congratulations! ${currentPlayer} is the Winner!`;
+                    status.classList.add('you-won');
+                } else {
                 currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
             }
         });
 
